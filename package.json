@@ -1,0 +1,21 @@
+{
+  "name": "backend-kat-model",
+  "version": "1.0.0",
+  "engines": {
+    "node": "20.x"
+  },
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "preinstall": "nvm install",
+    "star": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
