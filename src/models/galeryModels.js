@@ -3,7 +3,7 @@ import sequelize from '../database/database.js';
 
 const Galery = sequelize.define('galery', {
   galery_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     primaryKey: true,
     allowNull: false
   },

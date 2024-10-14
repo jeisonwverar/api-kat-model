@@ -3,7 +3,7 @@ import sequelize from '../database/database.js';
 
 const Image = sequelize.define('image', {
   image_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     primaryKey: true,
     allowNull: false
   },
