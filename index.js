@@ -6,10 +6,13 @@ const port = environmentVariable.PORT || 3000;
 
 const server = async() => {
   try {
-    await sequelize.authenticate();
-    app.listen(port);
+    // await sequelize.authenticate();
+    await sequelize.sync({ force: true });
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
 
-    console.log('Connection has been established successfully.');
+    console.log('Database sync successful.');
   } catch (error) {
     console.log({ Error: error || 'error in server' });
   }
