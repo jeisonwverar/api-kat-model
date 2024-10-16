@@ -4,10 +4,10 @@ import sequelize from './src/database/database.js';
 
 const port = environmentVariable.PORT || 3000;
 
-const server = async() => {
+const server = async () => {
   try {
-    // await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    await sequelize.authenticate();
+    //await sequelize.sync({ force: true});
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
