@@ -16,6 +16,5 @@ app.get('/', (req, res) => {
 
 //route
 
-
-app.use('/api/v1',routerMain)
+app.use('/api/v1', routerMain);
 export default app;
