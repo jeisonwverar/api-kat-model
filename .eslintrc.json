@@ -14,7 +14,11 @@
       "prettier/prettier": "error",  // Muestra errores si Prettier no está respetado
       "semi": ["error", "always"],   // Obliga el uso de punto y coma
       "quotes": ["error", "single"], // Comillas simples para las cadenas
-      "space-before-function-paren": ["error", "never"] // Sin espacio antes de paréntesis de función
+      "space-before-function-paren": ["error", {
+        "anonymous": "always",
+        "named": "always",
+        "asyncArrow": "always"
+    }]
     }
   }
   

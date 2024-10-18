@@ -1,4 +1,7 @@
 import { Router } from 'express';
+import {
+  
+} from '../controllers/image.controller.js';
 
 const routerImage = Router();
 
