@@ -8,7 +8,7 @@ const Galery = sequelize.define('galery', {
     allowNull: false
   },
   creator: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false
   },
   name_galery: {

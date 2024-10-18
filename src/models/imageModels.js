@@ -8,7 +8,7 @@ const Image = sequelize.define('image', {
     allowNull: false
   },
   galery_id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     allowNull: false
   },
   name_image: {

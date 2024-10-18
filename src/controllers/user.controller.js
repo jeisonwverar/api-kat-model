@@ -1,5 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-import { findAll, findForId, create } from '../services/user.service.js';
+import {
+  findAll,
+  findForId,
+  create,
+  deleteData,
+  updateData
+} from '../services/user.service.js';
 
 export const getUser = async (req, res) => {
   const id = req.params.id;
@@ -21,10 +27,24 @@ export const getUser = async (req, res) => {
   }
 };
 
-export const getUpdate = (req, res) => {
-  res.send(`user found: ${id} - ${data}`);
+export const userUpdate = async(req, res) => {
+  const {id}=req.params;
+  const {name,email,password}=req.body;
+
+  try {
+   const [updated]=await updateData({name,email,password},id);
+   if (updated) {
+    const updatedUser = await findForId(id); // Obtener el usuario actualizado
+    return res.status(200).json({ user: updatedUser });
+  }
+
+  // Si no se encontró ningún registro, devolver un 404
+  return res.status(404).json({ message: 'Usuario no encontrado' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Error al actualizar el usuario', error });
+  }
 };
-export const CreateUser = async (req, res) => {
+export const createUser = async (req, res) => {
   const body = req.body;
   try {
     const data = { user_id: uuidv4(), ...body };
@@ -43,6 +63,19 @@ export const CreateUser = async (req, res) => {
     return res.status(500).json(error);
   }
 };
-export const getDelete = (req, res) => {
-  console.log('userdelete');
+export const userDelete = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deleted = await deleteData(id);
+    console.log(deleted);
+    if (deleted) {
+      return res.status(200).json({ message: 'deleted user success' });
+    }
+
+    return res.status(404).json({ message: 'user not found' });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: 'Error al eliminar el usuario', error });
+  }
 };

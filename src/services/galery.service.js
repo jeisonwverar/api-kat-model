@@ -10,3 +10,5 @@ export const create = async (data) => {
     return { error };
   }
 };
+export const deleteData = async (id) => await Galery.destroy({ where: { user_id: id } });
+export const updateData = async (data, id) => await Galery.update(data,{where:{user_id:id}});
