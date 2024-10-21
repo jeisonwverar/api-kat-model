@@ -8,9 +8,9 @@ import {
 
 const routerGalery = Router();
 
-routerGalery.get('/galery', getGalery);
+routerGalery.get('/galery/:id?', getGalery);
 routerGalery.post('/galery', createGalery);
-routerGalery.put('/galery', updateGalery);
+routerGalery.patch('/galery/:id', updateGalery);
 routerGalery.delete('/galery/:id', deleteGalery);
 
 export default routerGalery;

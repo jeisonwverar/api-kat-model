@@ -27,21 +27,23 @@ export const getUser = async (req, res) => {
   }
 };
 
-export const userUpdate = async(req, res) => {
-  const {id}=req.params;
-  const {name,email,password}=req.body;
+export const userUpdate = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, password } = req.body;
 
   try {
-   const [updated]=await updateData({name,email,password},id);
-   if (updated) {
-    const updatedUser = await findForId(id); // Obtener el usuario actualizado
-    return res.status(200).json({ user: updatedUser });
-  }
+    const [updated] = await updateData({ name, email, password }, id);
+    if (updated) {
+      const updatedUser = await findForId(id); // Obtener el usuario actualizado
+      return res.status(200).json({ user: updatedUser });
+    }
 
-  // Si no se encontró ningún registro, devolver un 404
-  return res.status(404).json({ message: 'Usuario no encontrado' });
+    // Si no se encontró ningún registro, devolver un 404
+    return res.status(404).json({ message: 'Usuario no encontrado' });
   } catch (error) {
-    return res.status(500).json({ message: 'Error al actualizar el usuario', error });
+    return res
+      .status(500)
+      .json({ message: 'Error al actualizar el usuario', error });
   }
 };
 export const createUser = async (req, res) => {

@@ -10,5 +10,7 @@ export const create = async (data) => {
     return { error };
   }
 };
-export const deleteData = async (id) => await Image.destroy({ where: { user_id: id } });
-export const updateData = async (data, id) => await Image.update(data,{where:{user_id:id}});
+export const deleteData = async (id) =>
+  await Image.destroy({ where: { image_id: id } });
+export const updateData = async (data, id) =>
+  await Image.update(data, { where: { image_id: id } });
