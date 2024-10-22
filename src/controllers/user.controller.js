@@ -50,7 +50,7 @@ export const createUser = async (req, res) => {
   const body = req.body;
   try {
     const data = { user_id: uuidv4(), ...body };
-
+    
     const response = await create(data);
     if (response.error) {
       return res.status(500).json({
