@@ -1,16 +1,17 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import userRoutes from './src/routes/user.routes.js';
 import routerMain from './src/routes/index.js';
+import cookieParser from 'cookie-parser';
+
 const app = express();
 // middleware
 app.use(express.json());
 app.use(cors());
 
 app.use(morgan('dev'));
-
-app.get('/', (req, res) => {
+app.use(cookieParser())
+app.get('/', (_, res) => {
   res.send('<h1>server</h1>');
 });
 

@@ -11,6 +11,6 @@ export const create = async (data) => {
   }
 };
 export const deleteData = async (id) =>
-  await Galery.destroy({ where: {  galery_id: id } });
+  await Galery.destroy({ where: { galery_id: id } });
 export const updateData = async (data, id) =>
   await Galery.update(data, { where: { galery_id: id } });

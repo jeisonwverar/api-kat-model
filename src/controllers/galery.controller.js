@@ -40,7 +40,9 @@ export const createGalery = async (req, res) => {
     }
     return res
       .status(201)
-      .json({ message: `User create success name user ${response.name_galery} ` });
+      .json({
+        message: `User create success name user ${response.name_galery} `
+      });
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -50,10 +52,13 @@ export const updateGalery = async (req, res) => {
   const { nameGalery, description } = req.body;
 
   try {
-    const [updated] = await updateData({ name_galery:nameGalery, description:description }, id);
+    const [updated] = await updateData(
+      { name_galery: nameGalery, description: description },
+      id
+    );
     if (updated) {
       const updatedUser = await findForId(id); // Obtener el usuario actualizado
-      return res.status(200).json({ galery : updatedUser });
+      return res.status(200).json({ galery: updatedUser });
     }
 
     // Si no se encontró ningún registro, devolver un 404

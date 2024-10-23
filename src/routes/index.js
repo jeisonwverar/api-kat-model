@@ -9,5 +9,5 @@ const routerMain = Router();
 routerMain.use('/', routerImage);
 routerMain.use('/', routerGalery);
 routerMain.use('/', userRoutes);
-routerMain.use('/',authRouter);
+routerMain.use('/', authRouter);
 export default routerMain;
