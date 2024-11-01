@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import authRequired from '../middlewares/validateToken.js'
 import {
   getUser,
   createUser,
@@ -6,7 +7,7 @@ import {
   userDelete
 } from '../controllers/user.controller.js';
 const userRoutes = Router();
-userRoutes.get('/user/:id?', getUser);
+userRoutes.get('/user/:id?',authRequired, getUser);
 userRoutes.post('/user', createUser);
 userRoutes.patch('/user/:id', userUpdate);
 userRoutes.delete('/user/:id', userDelete);

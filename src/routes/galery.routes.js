@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import authRequired from '../middlewares/validateToken.js'
 import {
   getGalery,
   createGalery,
@@ -8,9 +9,9 @@ import {
 
 const routerGalery = Router();
 
-routerGalery.get('/galery/:id?', getGalery);
-routerGalery.post('/galery', createGalery);
-routerGalery.patch('/galery/:id', updateGalery);
-routerGalery.delete('/galery/:id', deleteGalery);
+routerGalery.get('/galery/:id?',authRequired ,getGalery);
+routerGalery.post('/galery',authRequired ,createGalery);
+routerGalery.patch('/galery/:id', authRequired,updateGalery);
+routerGalery.delete('/galery/:id',authRequired ,deleteGalery);
 
 export default routerGalery;

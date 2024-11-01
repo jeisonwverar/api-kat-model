@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { findOne } from '../services/user.service.js';
 import {
   create,
   deleteData,
@@ -7,12 +8,22 @@ import {
   updateData
 } from '../services/galery.service.js';
 
+
+
+
 export const getGalery = async (req, res) => {
   const id = req.params.id;
   let response = null;
+   const user= req.user
+
   try {
     if (!id) {
-      response = await findAll();
+     const userdata= await findOne({where:{
+        email:user.email
+      }});
+      response = await findAll({where:{
+        creator:userdata.dataValues.user_id
+      }});
     } else {
       response = await findForId(id);
     }
@@ -28,8 +39,12 @@ export const getGalery = async (req, res) => {
 };
 export const createGalery = async (req, res) => {
   const body = req.body;
+  const user= req.user
   try {
-    const data = { galery_id: uuidv4(), ...body };
+    const userdata= await findOne({where:{
+      email:user.email
+    }});
+    const data = { galery_id: uuidv4(),creator:userdata.dataValues.user_id, ...body };
 
     const response = await create(data);
     if (response.error) {

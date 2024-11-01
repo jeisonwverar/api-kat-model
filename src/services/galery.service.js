@@ -1,6 +1,6 @@
 import Galery from '../models/galeryModels.js';
 
-export const findAll = async () => await Galery.findAll();
+export const findAll = async (query) => await Galery.findAll(query);
 export const findForId = async (id) => await Galery.findByPk(id);
 export const create = async (data) => {
   try {
