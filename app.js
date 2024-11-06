@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use(morgan('dev'));
-app.use(cookieParser())
+app.use(cookieParser());
 app.get('/', (_, res) => {
   res.send('<h1>server</h1>');
 });

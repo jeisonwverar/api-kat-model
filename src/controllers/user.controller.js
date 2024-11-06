@@ -9,10 +9,10 @@ import {
 
 export const getUser = async (req, res) => {
   const id = req.params.id;
-  const user=req.user;
+  const user = req.user;
   let response = null;
   try {
-    console.log('user: ',user)
+    console.log('user: ', user);
     if (!id) {
       response = await findAll();
     } else {

@@ -8,22 +8,23 @@ import {
   updateData
 } from '../services/galery.service.js';
 
-
-
-
 export const getGalery = async (req, res) => {
   const id = req.params.id;
   let response = null;
-   const user= req.user
+  const user = req.user;
 
   try {
     if (!id) {
-     const userdata= await findOne({where:{
-        email:user.email
-      }});
-      response = await findAll({where:{
-        creator:userdata.dataValues.user_id
-      }});
+      const userdata = await findOne({
+        where: {
+          email: user.email
+        }
+      });
+      response = await findAll({
+        where: {
+          creator: userdata.dataValues.user_id
+        }
+      });
     } else {
       response = await findForId(id);
     }
@@ -39,12 +40,18 @@ export const getGalery = async (req, res) => {
 };
 export const createGalery = async (req, res) => {
   const body = req.body;
-  const user= req.user
+  const user = req.user;
   try {
-    const userdata= await findOne({where:{
-      email:user.email
-    }});
-    const data = { galery_id: uuidv4(),creator:userdata.dataValues.user_id, ...body };
+    const userdata = await findOne({
+      where: {
+        email: user.email
+      }
+    });
+    const data = {
+      galery_id: uuidv4(),
+      creator: userdata.dataValues.user_id,
+      ...body
+    };
 
     const response = await create(data);
     if (response.error) {
@@ -53,11 +60,9 @@ export const createGalery = async (req, res) => {
         error: response.error.parent.detail
       });
     }
-    return res
-      .status(201)
-      .json({
-        message: `User create success name user ${response.name_galery} `
-      });
+    return res.status(201).json({
+      message: `User create success name user ${response.name_galery} `
+    });
   } catch (error) {
     return res.status(500).json(error);
   }
