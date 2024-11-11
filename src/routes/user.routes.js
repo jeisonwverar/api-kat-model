@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import authRequired from '../middlewares/validateToken.js';
-import {checkRoleAuth} from '../middlewares/validateRole.js';
+import { checkRoleAuth } from '../middlewares/validateRole.js';
 import {
   getUser,
   createUser,
