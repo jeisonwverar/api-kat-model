@@ -1,13 +1,7 @@
 import multer from 'multer';
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  }
-});
+// Configura multer para almacenar archivos en memoria
+const storage = multer.memoryStorage();
 
 const upload = multer({ storage });
 

@@ -10,5 +10,5 @@ routerMain.use('/', routerImage);
 routerMain.use('/', routerGalery);
 routerMain.use('/', userRoutes);
 routerMain.use('/', authRouter);
-routerMain.use('/',routerTransformer)
+routerMain.use('/', routerTransformer);
 export default routerMain;
