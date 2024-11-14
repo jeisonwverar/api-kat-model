@@ -18,7 +18,7 @@ const transformer = async (req, res) => {
       parseInt(seed)
     );
 
-    return res.json({ result: result.data });
+    return res.json({ result: result });
   } catch (error) {
     console.error('Error en transformerController:', error);
     return res.status(500).json({ error: 'Error al procesar la solicitud.' });

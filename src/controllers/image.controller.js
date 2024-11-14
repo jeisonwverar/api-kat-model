@@ -5,7 +5,7 @@ import {
   findAll,
   findForId
 } from '../services/image.service.js';
-
+import uploadCloudinary from '../services/cloudinary.service.js'
 export const getImage = async (req, res) => {
   const id = req.params.id;
   let response = null;
@@ -26,20 +26,28 @@ export const getImage = async (req, res) => {
   }
 };
 export const createImage = async (req, res) => {
-  const body = req.body;
+  const {galeryId,nameImage,description,imageUrl} = req.body;
   try {
-    const data = { user_id: uuidv4(), ...body };
-
-    const response = await create(data);
+    const imageUrlCloudinary=await uploadCloudinary(imageUrl)
+    //console.log(imageUrlCloudinary)
+    const data = { 
+      image_id: uuidv4(),
+      galery_id:galeryId,
+    name_image:nameImage,
+    description,
+    url:imageUrlCloudinary.secure_url
+      
+  };
+  const response = await create(data);
+  //console.log(response)
+  
     if (response.error) {
       return res.status(500).json({
-        message: 'Error al crear el usuario',
+        message: 'Error created image',
         error: response.error.parent.detail
       });
     }
-    return res
-      .status(201)
-      .json({ message: `User create success name user ${response.name} ` });
+    return res.status(201).json({message:response });
   } catch (error) {
     return res.status(500).json(error);
   }
