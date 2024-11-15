@@ -1,7 +1,7 @@
 import cloudinary from '../utils/cloudinaryConect.js'
 
 
-const uploadCloudinary=async(imageUrl,folder = 'katmodel')=>{
+export const uploadCloudinary=async(imageUrl,folder = 'katmodel')=>{
     try {
         const result=await cloudinary.uploader.upload(imageUrl,{folder})
         return result
@@ -10,4 +10,16 @@ const uploadCloudinary=async(imageUrl,folder = 'katmodel')=>{
     throw error;
     }
 };
-export default uploadCloudinary;
+
+export const deleteCloudinary=async(publicId)=>{
+    try{
+
+        const result = cloudinary.uploader.destroy(publicId)
+        console.log(result)
+        return result
+    }catch (error) {
+        console.error("Error eliminando la imagen en Cloudinary:", error);
+        throw error;
+      }
+
+};

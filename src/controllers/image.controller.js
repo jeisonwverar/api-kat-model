@@ -3,9 +3,11 @@ import {
   create,
   deleteData,
   findAll,
-  findForId
+  findForId,
+  updateData
 } from '../services/image.service.js';
-import uploadCloudinary from '../services/cloudinary.service.js'
+import {uploadCloudinary,deleteCloudinary} from '../services/cloudinary.service.js'
+import extractPublicId from '../utils/extractPublicId.js';
 export const getImage = async (req, res) => {
   const id = req.params.id;
   let response = null;
@@ -35,8 +37,7 @@ export const createImage = async (req, res) => {
       galery_id:galeryId,
     name_image:nameImage,
     description,
-    url:imageUrlCloudinary.secure_url
-      
+    url:imageUrlCloudinary.secure_url   
   };
   const response = await create(data);
   //console.log(response)
@@ -54,34 +55,40 @@ export const createImage = async (req, res) => {
 };
 export const updateImage = async (req, res) => {
   const { id } = req.params;
-  const { name, email, password } = req.body;
+  const {nameImage,description} = req.body;
 
   try {
-    const [updated] = await updateData({ name, email, password }, id);
+    const [updated] = await updateData({ name_image:nameImage,description }, id);
     if (updated) {
-      const updatedUser = await findForId(id); // Obtener el usuario actualizado
-      return res.status(200).json({ user: updatedUser });
+      const updateImage = await findForId(id); // Obtener el usuario actualizado
+      return res.status(200).json({ image: updateImage });
     }
 
     // Si no se encontró ningún registro, devolver un 404
-    return res.status(404).json({ message: 'Usuario no encontrado' });
+    return res.status(404).json({ message: 'image not found' });
   } catch (error) {
     return res
       .status(500)
-      .json({ message: 'Error al actualizar el usuario', error });
+      .json({ message: 'error', error });
   }
 };
 export const deleteImage = async (req, res) => {
   try {
     const { id } = req.params;
     try {
+      data= await findForId(id);
+      urlImage=data.url;
+      console.log(urlImage)
       const deleted = await deleteData(id);
       console.log(deleted);
       if (deleted) {
-        return res.status(200).json({ message: 'deleted user success' });
+       const idPublic =extractPublicId(urlImage)
+       const resultCloudinary= await deleteCloudinary(idPublic)
+
+        return res.status(200).json({ message: 'deleted image success', cloud:resultCloudinary });
       }
 
-      return res.status(404).json({ message: 'user not found' });
+      return res.status(404).json({ message: 'image not found' });
     } catch (error) {
       return res
         .status(500)
