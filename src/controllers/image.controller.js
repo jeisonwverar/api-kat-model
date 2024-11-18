@@ -73,26 +73,39 @@ export const updateImage = async (req, res) => {
   }
 };
 export const deleteImage = async (req, res) => {
+  const { id } = req.params; // Obtenemos el ID desde los parámetros de la solicitud
   try {
-    const { id } = req.params;
-    try {
-      data= await findForId(id);
-      urlImage=data.url;
-      console.log(urlImage)
-      const deleted = await deleteData(id);
-      console.log(deleted);
-      if (deleted) {
-       const idPublic =extractPublicId(urlImage)
-       const resultCloudinary= await deleteCloudinary(idPublic)
-
-        return res.status(200).json({ message: 'deleted image success', cloud:resultCloudinary });
+      // Buscar datos relacionados con el ID proporcionado
+      const data = await findForId(id); // Supongo que esta función busca la imagen en tu base de datos
+      if (!data) {
+          return res.status(404).json({ message: 'Image not found' }); // Verificamos si no existe
       }
 
-      return res.status(404).json({ message: 'image not found' });
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ message: 'Error al eliminar el usuario', error });
-    }
-  } catch (error) {}
+      const urlImage = data.url; // Obtenemos la URL de la imagen
+      //console.log(urlImage);
+
+      // Eliminamos el registro de la base de datos
+      const deleted = await deleteData(id); // Supongo que esta función elimina el registro
+      //console.log(deleted);
+
+      if (deleted) {
+          // Extraer el public_id de la URL (clave en Cloudinary)
+          const idPublic = extractPublicId(urlImage); // Debes asegurarte de que esta función funcione correctamente
+          const resultCloudinary = await deleteCloudinary(idPublic); // Eliminamos la imagen en Cloudinary
+
+          return res.status(200).json({ 
+              message: 'Image deleted successfully', 
+              cloud: resultCloudinary 
+          });
+      }
+
+      return res.status(500).json({ message: 'Failed to delete image from database' });
+  } catch (error) {
+      console.error('Error in deleteImage:', error); // Log detallado del error
+      return res.status(500).json({ 
+          message: 'Error deleting image', 
+          error: error.message 
+      });
+  }
 };
+
