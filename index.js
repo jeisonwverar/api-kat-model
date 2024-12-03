@@ -7,7 +7,7 @@ const port = environmentVariable.PORT || 3000;
 const server = async () => {
   try {
     //await sequelize.authenticate();
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: false});
 
     await createAdmin();
     app.listen(port, () => {
