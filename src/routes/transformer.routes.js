@@ -5,7 +5,8 @@ import upload from '../middlewares/upload.js';
 const routerTransformer = Router();
 
 routerTransformer.post(
-  '/transformer',authRequired,
+  '/transformer',
+  authRequired,
   upload.fields([
     { name: 'personImage', maxCount: 1 },
     { name: 'clothingImage', maxCount: 1 }

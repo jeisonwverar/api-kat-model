@@ -47,8 +47,7 @@ export const createGalery = async (req, res) => {
         email: user.email
       }
     });
-   
-   
+
     const data = {
       galery_id: uuidv4(),
       creator: userdata.dataValues.user_id,
