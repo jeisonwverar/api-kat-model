@@ -1,7 +1,7 @@
 import { encrypt, decrypt } from '../utils/bycript.js';
 import { findOne, create } from '../services/user.service.js';
 import { v4 as uuidv4 } from 'uuid';
-import { generateToken } from '../utils/jwt.js';
+import { generateToken,verifyToken } from '../utils/jwt.js';
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -72,3 +72,18 @@ export const logout = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const validate=async(req,res)=>{
+  const token = req.cookies.token;
+  try {
+    if(!token) return res.status(401).json({message:'unauthorized'});
+    const decoded= verifyToken(token);
+    const user = await findOne({where:{email:decoded.email}})
+    if (!user) return res.status(404).json({ message: 'user not found ' });
+
+    return res.status(200).json({ user: { email: user.email, role: user.role } });
+
+  } catch (error) {
+    res.status(401).json({ message: 'Invalid or expired token' });
+  }
+}
