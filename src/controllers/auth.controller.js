@@ -55,7 +55,7 @@ export const login = async (req, res) => {
 
     return res
       .status(200)
-      .json({user:{ email:userFound.email,password:userFound.password}, token });
+      .json({user:{ email:userFound.email,role:userFound.role}, token });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
