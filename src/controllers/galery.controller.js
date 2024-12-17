@@ -33,6 +33,17 @@ export const getGalery = async (req, res) => {
       return res.status(404).json({ message: 'NOT FOUND' });
     }
 
+    if (response.length === 0) {
+      await create({
+        galery_id: uuidv4(),
+        creator: user.user_id,
+        name_galery: 'general',
+        description: 'galeria general'
+      });
+
+      create.save();
+    }
+
     return res.status(200).json(response);
   } catch (error) {
     return res.status(500).json({ message: 'Error en server', error });
