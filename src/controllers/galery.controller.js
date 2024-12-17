@@ -41,7 +41,6 @@ export const getGalery = async (req, res) => {
         description: 'galeria general'
       });
 
-      create.save();
     }
 
     return res.status(200).json(response);
