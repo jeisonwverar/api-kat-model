@@ -1,7 +1,7 @@
 import { encrypt, decrypt } from '../utils/bycript.js';
 import { findOne, create } from '../services/user.service.js';
 import { v4 as uuidv4 } from 'uuid';
-import { generateToken,verifyToken } from '../utils/jwt.js';
+import { generateToken, verifyToken } from '../utils/jwt.js';
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -49,13 +49,13 @@ export const login = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true, // Solo accesible desde el servidor
       secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
-      sameSite: 'Strict', // Protección contra CSRF
+      sameSite: 'None', // Protección contra CSRF
       maxAge: 3600000 // Expiración en 1 hora (3600000 ms)
     });
 
     return res
       .status(200)
-      .json({user:{ email:userFound.email,role:userFound.role}, token });
+      .json({ user: { email: userFound.email, role: userFound.role }, token });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -73,17 +73,18 @@ export const logout = async (req, res) => {
   }
 };
 
-export const validate=async(req,res)=>{
+export const validate = async (req, res) => {
   const token = req.cookies.token;
   try {
-    if(!token) return res.status(401).json({message:'unauthorized'});
-    const decoded= verifyToken(token);
-    const user = await findOne({where:{email:decoded.email}})
+    if (!token) return res.status(401).json({ message: 'unauthorized' });
+    const decoded = verifyToken(token);
+    const user = await findOne({ where: { email: decoded.email } });
     if (!user) return res.status(404).json({ message: 'user not found ' });
 
-    return res.status(200).json({ user: { email: user.email, role: user.role } });
-
+    return res
+      .status(200)
+      .json({ user: { email: user.email, role: user.role } });
   } catch (error) {
     res.status(401).json({ message: 'Invalid or expired token' });
   }
-}
+};
