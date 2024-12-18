@@ -3,11 +3,14 @@ import generateTryOn from '../services/transformer.service.js';
 const transformer = async (req, res) => {
   try {
     const { text = '', denoisingSteps = 30, seed = 42 } = req.body;
-    const personImage = req.files['personImage'][0];
-    const clothingImage = req.files['clothingImage'][0];
+    const personImage = req.files['personImage']?.[0];
+    const clothingImage = req.files['clothingImage']?.[0];
 
     //const personImageBlob = new Blob([personImage.buffer], { type: personImage.mimetype });
     //const clothingImageBlob = new Blob([clothingImage.buffer], { type: clothingImage.mimetype });
+    if (!personImage || !clothingImage) {
+      return res.status(400).json({ error: "Faltan imágenes para procesar." });
+    }
 
     const result = await generateTryOn(
       personImage.buffer,
