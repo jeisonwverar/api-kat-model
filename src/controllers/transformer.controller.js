@@ -1,4 +1,3 @@
-import { json } from 'sequelize';
 import generateTryOn from '../services/transformer.service.js';
 
 const transformer = async (req, res) => {
