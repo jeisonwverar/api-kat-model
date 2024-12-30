@@ -12,14 +12,16 @@ import {
 } from '../services/cloudinary.service.js';
 import extractPublicId from '../utils/extractPublicId.js';
 export const getImage = async (req, res) => {
-  const galeryId = req.params.id;
+  const galeryId = req.params.galeryId;
+
+
   
   try {
     if (!galeryId) {
       return res.status(400).json({ message: 'Gallery ID is required' });
     }
 
-    const images = await findAll({ where: { galery_id: galeryId } }); // Supón que `findAll` acepta un filtro
+    const images = await findAll({ where: { galery_id : galeryId } }); // Supón que `findAll` acepta un filtro
 
     if (!images || images.length === 0) {
       return res.status(404).json({ message: 'No images found for this gallery' });

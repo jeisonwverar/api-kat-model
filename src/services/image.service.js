@@ -1,6 +1,13 @@
 import Image from '../models/imageModels.js';
 
-export const findAll = async (filter) => await Image.findAll(filter);
+export const findAll = async (filter = {}) => {
+  try {
+    return await Image.findAll(filter);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
 export const findForId = async (id) => await Image.findByPk(id);
 export const create = async (data) => {
   try {
