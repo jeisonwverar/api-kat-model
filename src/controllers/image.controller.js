@@ -12,24 +12,30 @@ import {
 } from '../services/cloudinary.service.js';
 import extractPublicId from '../utils/extractPublicId.js';
 export const getImage = async (req, res) => {
-  const id = req.params.id;
-  let response = null;
+  const galeryId = req.params.id;
+  
   try {
-    if (!id) {
-      response = await findAll();
-    } else {
-      response = await findForId(id);
+    if (!galeryId) {
+      return res.status(400).json({ message: 'Gallery ID is required' });
     }
 
-    if (!response) {
-      return res.status(404).json({ message: 'NOT FOUND' });
+    const images = await findAll({ where: { galery_id: galeryId } }); // Supón que `findAll` acepta un filtro
+
+    if (!images || images.length === 0) {
+      return res.status(404).json({ message: 'No images found for this gallery' });
     }
 
-    return res.status(200).json(response);
+    return res.status(200).json(images);
   } catch (error) {
-    return res.status(500).json({ message: 'Error en server', error });
+    console.error('Error fetching gallery images:', error); // Log del error
+    return res.status(500).json({
+      message: 'Error fetching gallery images',
+      error: error.message
+    });
   }
 };
+
+
 export const createImage = async (req, res) => {
   const { galeryId, nameImage, description, imageUrl } = req.body;
   try {

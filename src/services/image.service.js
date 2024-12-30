@@ -1,6 +1,6 @@
 import Image from '../models/imageModels.js';
 
-export const findAll = async () => await Image.findAll();
+export const findAll = async (filter) => await Image.findAll(filter);
 export const findForId = async (id) => await Image.findByPk(id);
 export const create = async (data) => {
   try {
