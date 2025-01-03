@@ -24,8 +24,9 @@ export const register = async (req, res) => {
     console.log(token);
     res.cookie('token', token, {
       httpOnly: true, // Solo accesible desde el servidor
-      secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
-      sameSite: 'Strict', // Protección contra CSRF
+      //secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
+      secure:false,
+      sameSite: 'lax', // Protección contra CSRF
       maxAge: 3600000 // Expiración en 1 hora (3600000 ms)
     });
     return res.status(201).json({
@@ -48,8 +49,9 @@ export const login = async (req, res) => {
     const token = generateToken(userFound);
     res.cookie('token', token, {
       httpOnly: true, // Solo accesible desde el servidor
-      secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
-      sameSite: 'None', // Protección contra CSRF
+      //secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
+      secure:false,
+      sameSite: 'lax', // Protección contra CSRF
       maxAge: 3600000 // Expiración en 1 hora (3600000 ms)
     });
 
