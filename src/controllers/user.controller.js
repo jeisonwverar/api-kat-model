@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { decrypt,encrypt} from '../utils/bycript.js';
 import {
   findAll,
   findForId,
@@ -31,10 +32,22 @@ export const getUser = async (req, res) => {
 
 export const userUpdate = async (req, res) => {
   const { id } = req.params;
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   try {
-    const [updated] = await updateData({ name, email, password }, id);
+    const currentUser = await findForId(id);
+    if (!currentUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    let updatedPassword = currentUser.password; // Mantener la contraseña existente por defecto
+    if (password) {
+      const isSamePassword = await decrypt(password, currentUser.password);
+      if (!isSamePassword) {
+        updatedPassword = await encrypt(password);
+      }
+    }
+
+    const [updated] = await updateData({name, email, password: updatedPassword, role }, id);
     if (updated) {
       const updatedUser = await findForId(id); // Obtener el usuario actualizado
       return res.status(200).json({ user: updatedUser });

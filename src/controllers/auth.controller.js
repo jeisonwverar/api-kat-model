@@ -21,11 +21,11 @@ export const register = async (req, res) => {
       });
     }
     const token = generateToken(registerUser);
-    console.log(token);
+    // console.log(token)
     res.cookie('token', token, {
       httpOnly: true, // Solo accesible desde el servidor
-      //secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
-      secure:false,
+      // secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
+      secure: false,
       sameSite: 'lax', // Protección contra CSRF
       maxAge: 3600000 // Expiración en 1 hora (3600000 ms)
     });
@@ -49,8 +49,8 @@ export const login = async (req, res) => {
     const token = generateToken(userFound);
     res.cookie('token', token, {
       httpOnly: true, // Solo accesible desde el servidor
-      //secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
-      secure:false,
+      // secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
+      secure: false,
       sameSite: 'lax', // Protección contra CSRF
       maxAge: 3600000 // Expiración en 1 hora (3600000 ms)
     });
