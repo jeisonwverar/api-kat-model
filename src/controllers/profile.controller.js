@@ -20,20 +20,17 @@ export const getProfile = async (req, res) => {
 };
 
 export const updateProfile = async (req, res) => {
-  const user = req.user; // Usuario autenticado
+  const { id } = req.params;
   const body = req.body;
-
   try {
     // Verificar si el usuario existe
-    const profile = await findOne({
-      where: { email: user.email }
-    });
+    const profile = await findForId(id)
 
     if (!profile) {
       return res.status(404).json({ message: 'Perfil no encontrado' });
     }
 
-    const idProfile = profile.dataValues.user_id;
+    const idProfile = id;
 
     // Construir dinámicamente el objeto de actualización
     const updates = {};
@@ -71,12 +68,9 @@ export const updateProfile = async (req, res) => {
 };
 
 export const deleteProfile = async (req, res) => {
-  const user = req.user;
+  const { id } = req.params;
   try {
-    const responseProfile = await findOne({
-      where: user.email
-    });
-    const deleted = await deleteData(responseProfile.dataValues.user_id);
+    const deleted = await deleteData(id);
     console.log(deleted);
     if (deleted) {
       return res.status(200).json({ message: 'deleted user success' });

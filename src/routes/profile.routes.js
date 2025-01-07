@@ -8,7 +8,7 @@ import {
 const profileRouter = Router();
 
 profileRouter.get('/profile', authRequired, getProfile);
-profileRouter.patch('/profile', authRequired, updateProfile);
-profileRouter.delete('/profile', authRequired, deleteProfile);
+profileRouter.patch('/profile/:id', authRequired, updateProfile);
+profileRouter.delete('/profile/:id', authRequired, deleteProfile);
 
 export default profileRouter;
